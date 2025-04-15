@@ -165,7 +165,7 @@
       document.getElementById('amountTextField').innerText = amountText;
       document.getElementById('payeeField').innerText = payee;
       document.getElementById('dateField').innerText = chequeDate;
-      document.getElementById('amountNumericField').innerText = amountNumeric;
+     document.getElementById('amountNumericField').innerText = parseFloat(amountNumeric || 0).toFixed(2);
       document.getElementById('stubDateTop').innerText = chequeDate;
       document.getElementById('stubPayeeTop').innerText = payee;
       document.getElementById('stubDescriptionTop').innerText = description;
