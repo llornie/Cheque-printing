@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Cheque Printing Widget</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: #f0f0f0;
+    }
+    .container {
+      display: flex;
+      gap: 2rem;
+    }
+    .form {
+      flex: 1;
+    }
+    .preview {
+      width: 8.5in;
+      height: 11in;
+      background: white;
+      position: relative;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+    .field {
+      position: absolute;
+      font-size: 12pt;
+    }
+    input, textarea {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .preview, .preview * {
+        visibility: visible;
+      }
+      .preview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        box-shadow: none;
+        border: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Cheque Printing Widget</h1>
+  <div class="container">
+    <div class="form">
+      <label>Payee Name:</label>
+      <input type="text" id="payee" placeholder="Enter payee name" />
+      <label>Amount Numeric:</label>
+      <input type="text" id="amountNumeric" placeholder="Enter numeric amount" />
+      <label>Amount in Words:</label>
+      <textarea id="amountText" placeholder="Enter amount in words"></textarea>
+      <label>Description:</label>
+      <input type="text" id="description" placeholder="Enter description" />
+      <label>Date:</label>
+      <input type="text" id="chequeDate" placeholder="Enter date (e.g. April 15, 2025)" />
+      <button onclick="updatePreview()">Update Preview</button>
+      <button onclick="window.print()">Print Cheque</button>
+    </div>
+    <div class="preview" id="chequePreview">
+      <!-- Main cheque -->
+      <div class="field" id="amountTextField" style="top: 1.1563in; left: 1in;"></div>
+      <div class="field" id="payeeField" style="top: 1.75in; left: 1in;"></div>
+      <div class="field" id="dateField" style="top: 0.75in; left: 6.9375in;"></div>
+      <div class="field" id="amountNumericField" style="top: 1.125in; left: 7.0625in;"></div>
+
+      <!-- Middle stub -->
+      <div class="field" id="stubDateTop" style="top: 4.3125in; left: 0.3125in;"></div>
+      <div class="field" id="stubPayeeTop" style="top: 4.3125in; left: 2.2813in;"></div>
+      <div class="field" id="stubDescriptionTop" style="top: 4.5625in; left: 2.2813in;"></div>
+      <div class="field" id="stubAmountTop" style="top: 4.3125in; left: 7.0625in;"></div>
+
+      <!-- Bottom stub -->
+      <div class="field" id="stubDateBottom" style="top: 7.9375in; left: 0.3125in;"></div>
+      <div class="field" id="stubPayeeBottom" style="top: 7.9375in; left: 2.2813in;"></div>
+      <div class="field" id="stubDescriptionBottom" style="top: 8.1875in; left: 2.2813in;"></div>
+      <div class="field" id="stubAmountBottom" style="top: 7.9375in; left: 7.0625in;"></div>
+    </div>
+  </div>
+  <script>
+    function updatePreview() {
+      const payee = document.getElementById('payee').value;
+      const amountNumeric = document.getElementById('amountNumeric').value;
+      const amountText = document.getElementById('amountText').value;
+      const description = document.getElementById('description').value;
+      const chequeDate = document.getElementById('chequeDate').value;
+
+      document.getElementById('amountTextField').innerText = amountText;
+      document.getElementById('payeeField').innerText = payee;
+      document.getElementById('dateField').innerText = chequeDate;
+      document.getElementById('amountNumericField').innerText = amountNumeric;
+
+      document.getElementById('stubDateTop').innerText = chequeDate;
+      document.getElementById('stubPayeeTop').innerText = payee;
+      document.getElementById('stubDescriptionTop').innerText = description;
+      document.getElementById('stubAmountTop').innerText = amountNumeric;
+
+      document.getElementById('stubDateBottom').innerText = chequeDate;
+      document.getElementById('stubPayeeBottom').innerText = payee;
+      document.getElementById('stubDescriptionBottom').innerText = description;
+      document.getElementById('stubAmountBottom').innerText = amountNumeric;
+    }
+
+    updatePreview(); // Initialize empty
+  </script>
+</body>
+</html>
