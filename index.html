@@ -173,11 +173,11 @@
       document.getElementById('stubDateTop').innerText = chequeDate;
       document.getElementById('stubPayeeTop').innerText = payee;
       document.getElementById('stubDescriptionTop').innerText = description;
-      document.getElementById('stubAmountTop').innerText = formattedAmount;
+      document.getElementById('stubAmountTop').innerText = "$" + parseFloat(amountNumeric || 0).toFixed(2);
       document.getElementById('stubDateBottom').innerText = chequeDate;
       document.getElementById('stubPayeeBottom').innerText = payee;
       document.getElementById('stubDescriptionBottom').innerText = description;
-      document.getElementById('stubAmountBottom').innerText = formattedAmount;
+      document.getElementById('stubAmountBottom').innerText = "$" + parseFloat(amountNumeric || 0).toFixed(2);
     }
 
     function getParamsFromURL() {
@@ -195,4 +195,3 @@
   </script>
 </body>
 </html>
-
