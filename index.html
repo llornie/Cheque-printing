@@ -1,33 +1,22 @@
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Print Cheque</title>
+  <title>Cheque Printing Widget</title>
   <style>
-    :root {
-      --bg: #ffffff;
-      --fg: #2f3437;
-      --border: #e3e3e3;
-      --input-bg: #f7f7f7;
-      --button-bg: #ececec;
-      --button-border: #dcdcdc;
-    }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 1rem;
-      background: var(--bg);
-      color: var(--fg);
+      background: #f0f0f0;
     }
     .container {
       display: flex;
       gap: 2rem;
-      flex-wrap: wrap;
     }
     .form {
       flex: 1;
-      min-width: 300px;
-      max-width: 400px;
     }
     .preview {
       width: 8.5in;
@@ -35,7 +24,7 @@
       background: white;
       position: relative;
       border: 1px solid #ccc;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
     }
     .field {
       position: absolute;
@@ -45,19 +34,12 @@
       width: 100%;
       margin-bottom: 0.5rem;
       padding: 0.5rem;
-      font-size: 0.95rem;
-      border: 1px solid var(--border);
-      background: var(--input-bg);
-      border-radius: 6px;
+      font-size: 1rem;
     }
     button {
-      padding: 0.45rem 1rem;
-      font-size: 0.95rem;
-      background: var(--button-bg);
-      border: 1px solid var(--button-border);
-      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
       cursor: pointer;
-      margin-right: 0.5rem;
     }
     @media print {
       body * {
@@ -77,19 +59,19 @@
   </style>
 </head>
 <body>
-  <h1 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">Print Cheque</h1>
+  <h1>Cheque Printing Widget</h1>
   <div class="container">
     <div class="form">
       <label>Payee Name:</label>
-      <input type="text" id="payee" placeholder="Enter payee name" onkeyup="updatePreview()" onchange="updatePreview()" />
+      <input type="text" id="payee" placeholder="Enter payee name" />
       <label>Amount Numeric:</label>
-      <input type="text" id="amountNumeric" placeholder="Enter numeric amount" onkeyup="updatePreview()" onchange="updatePreview()" />
+      <input type="text" id="amountNumeric" placeholder="Enter numeric amount" />
       <label>Amount in Words:</label>
-      <textarea id="amountText" readonly placeholder="Auto-filled from numeric amount"></textarea>
+      <textarea id="amountText" placeholder="Enter amount in words"></textarea>
       <label>Description:</label>
-      <input type="text" id="description" placeholder="Enter description" onkeyup="updatePreview()" onchange="updatePreview()" />
+      <input type="text" id="description" placeholder="Enter description" />
       <label>Date:</label>
-      <input type="text" id="chequeDate" placeholder="Enter date (e.g. April 15, 2025)" onkeyup="updatePreview()" onchange="updatePreview()" />
+      <input type="text" id="chequeDate" placeholder="Enter date (e.g. April 15, 2025)" />
       <button onclick="updatePreview()">Update Preview</button>
       <button onclick="window.print()">Print Cheque</button>
     </div>
@@ -114,62 +96,12 @@
     </div>
   </div>
   <script>
-    function numberToWords(amount) {
-      const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
-      const teens = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
-      const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-      const scales = ["", "Thousand", "Million", "Billion"];
-
-      function convert_hundreds(n) {
-        let word = "";
-        if (n > 99) {
-          word += ones[Math.floor(n / 100)] + " Hundred ";
-          n = n % 100;
-        }
-        if (n >= 10 && n < 20) {
-          word += teens[n - 10];
-        } else {
-          word += tens[Math.floor(n / 10)];
-          if (n % 10 > 0) word += " " + ones[n % 10];
-        }
-        return word.trim();
-      }
-
-      function convert_number(num) {
-        if (num === 0) return "Zero";
-        let word = "";
-        let parts = [];
-        let scale = 0;
-        while (num > 0) {
-          let chunk = num % 1000;
-          if (chunk > 0) {
-            let chunk_word = convert_hundreds(chunk);
-            if (scales[scale]) chunk_word += " " + scales[scale];
-            parts.unshift(chunk_word.trim());
-          }
-          num = Math.floor(num / 1000);
-          scale++;
-        }
-        return parts.join(" ");
-      }
-
-      amount = parseFloat(amount).toFixed(2);
-      const [dollars, cents] = amount.split(".");
-      const dollarText = convert_number(parseInt(dollars));
-      return dollarText + " and " + cents + "/100";
-    }
-
     function updatePreview() {
       const payee = document.getElementById('payee').value;
       const amountNumeric = document.getElementById('amountNumeric').value;
+      const amountText = document.getElementById('amountText').value;
       const description = document.getElementById('description').value;
       const chequeDate = document.getElementById('chequeDate').value;
-
-      let amountText = "";
-      if (amountNumeric) {
-        amountText = numberToWords(amountNumeric);
-        document.getElementById('amountText').value = amountText;
-      }
 
       document.getElementById('amountTextField').innerText = amountText;
       document.getElementById('payeeField').innerText = payee;
@@ -187,7 +119,7 @@
       document.getElementById('stubAmountBottom').innerText = amountNumeric;
     }
 
-    updatePreview();
+    updatePreview(); // Initialize empty
   </script>
 </body>
 </html>
