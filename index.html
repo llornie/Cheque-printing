@@ -157,23 +157,27 @@
       const amountNumeric = document.getElementById('amountNumeric').value;
       const description = document.getElementById('description').value;
       const chequeDate = document.getElementById('chequeDate').value;
+
       let amountText = "";
+      let formattedAmount = "";
       if (amountNumeric) {
         amountText = numberToWords(amountNumeric);
+        formattedAmount = parseFloat(amountNumeric || 0).toFixed(2);
         document.getElementById('amountText').value = amountText;
       }
+
       document.getElementById('amountTextField').innerText = amountText;
       document.getElementById('payeeField').innerText = payee;
       document.getElementById('dateField').innerText = chequeDate;
-     document.getElementById('amountNumericField').innerText = parseFloat(amountNumeric || 0).toFixed(2);
+      document.getElementById('amountNumericField').innerText = formattedAmount;
       document.getElementById('stubDateTop').innerText = chequeDate;
       document.getElementById('stubPayeeTop').innerText = payee;
       document.getElementById('stubDescriptionTop').innerText = description;
-      document.getElementById('stubAmountTop').innerText = amountNumeric;
+      document.getElementById('stubAmountTop').innerText = formattedAmount;
       document.getElementById('stubDateBottom').innerText = chequeDate;
       document.getElementById('stubPayeeBottom').innerText = payee;
       document.getElementById('stubDescriptionBottom').innerText = description;
-      document.getElementById('stubAmountBottom').innerText = amountNumeric;
+      document.getElementById('stubAmountBottom').innerText = formattedAmount;
     }
 
     function getParamsFromURL() {
@@ -191,3 +195,4 @@
   </script>
 </body>
 </html>
+
